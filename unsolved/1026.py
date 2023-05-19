@@ -17,12 +17,15 @@ for _ in range(M):
     else:
         graph[b].append(a)
 
+for i in graph:
+    graph[i] = sorted(graph[i])
+    
 """ dfs """
 dfs_visited = []
 def dfs(root):
     if len(dfs_visited) == N:
         return False
-    if root not in dfs_visited:
+    if root not in dfs_visited and root in graph:
         dfs_visited.append(root)
         for i in graph[root]:
             dfs(i)
@@ -36,13 +39,10 @@ bfs_visited = [V]
 queue = deque([V])
 while queue:
     next_cur = queue.popleft()
-    for i in graph[next_cur]:
-        if i not in bfs_visited:
-            bfs_visited.append(i)
-            queue.append(i)
+    if next_cur in graph:
+        for i in graph[next_cur]:
+            if i not in bfs_visited and i in graph:
+                bfs_visited.append(i)
+                queue.append(i)
 
 print(*bfs_visited)
-
-
-    
-    
