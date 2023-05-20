@@ -3,46 +3,38 @@ from collections import deque
 
 N, M, V = map(int, sys.stdin.readline().split())
 
-graph = {}
+graph = [[0] * (N+1) for _ in range(N+1)]
 
 for _ in range(M):
     a, b = map(int, sys.stdin.readline().split())
-    if a not in graph:
-        graph[a] = [b]
-    else:
-        graph[a].append(b)
-        
-    if b not in graph:
-        graph[b] = [a]
-    else:
-        graph[b].append(a)
+    graph[a][b] = graph[b][a] = 1
 
-for i in graph:
-    graph[i] = sorted(graph[i])
-    
+dfs_visited = [0] * (N+1)
 """ dfs """
-dfs_visited = []
 def dfs(root):
-    if len(dfs_visited) == N:
-        return False
-    if root not in dfs_visited and root in graph:
-        dfs_visited.append(root)
-        for i in graph[root]:
+    dfs_visited[root] = 1
+    print(root, end = " ")
+    for i in range(1, N+1):
+        if not dfs_visited[i] and graph[root][i]:
             dfs(i)
 
-dfs(V)
-print(*dfs_visited)
+
 
 """ bfs """
-bfs_visited = [V]
 
-queue = deque([V])
-while queue:
-    next_cur = queue.popleft()
-    if next_cur in graph:
-        for i in graph[next_cur]:
-            if i not in bfs_visited and i in graph:
-                bfs_visited.append(i)
+def bfs(V):
+    queue = [V]
+    dfs_visited[V] = 0
+    
+    while queue:
+        V = queue.pop(0)
+        print(V, end = " ")
+        for i in range(1, N+1):
+            if dfs_visited[i] == 1 and graph[V][i] == 1:
                 queue.append(i)
+                dfs_visited[i] = 0
 
-print(*bfs_visited)
+
+dfs(V)
+print()
+bfs(V)
