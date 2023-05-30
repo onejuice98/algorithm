@@ -7,17 +7,23 @@ int main(){
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int P, K;
+    int K;
+    string P;
     cin >> P >> K;
-
-    bool is_BAD = false;
-    for(int i = 2; i < K; i++){
-        if (P % i == 0) {
-            cout << "BAD" << " " << i << endl;
-            is_BAD = true;
-            break;
-        }
+    cout << P << endl;
+    int ret = 0;
+    for(int j = 0; j <P.size(); j++){
+        ret = (ret * 10 + P[j] - '0');
+        cout << ret << endl;
     }
-    if (!is_BAD) cout << "GOOD" << endl;
+    // bool is_BAD = false;
+    // for(int i = 2; i <= K; i++){
+    //     if (P % i == 0) {
+    //         cout << "BAD" << " " << i << endl;
+    //         is_BAD = true;
+    //         break;
+    //     }
+    // }
+    // if (!is_BAD) cout << "GOOD" << endl;
     return 0;
 }
