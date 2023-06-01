@@ -1,5 +1,6 @@
 import sys
 
+sys.setrecursionlimit(10**6)
 N = int(sys.stdin.readline())
 
 
@@ -10,11 +11,11 @@ def sweet_box(amount):
     if amount < 3:
         return -1
     elif amount % 5 == 0:
-        ans[1] += int(amount/5)
-        return sweet_box(amount-5 * int(amount / 5))
+        ans[1] += 1
+        return sweet_box(amount-5)
     elif amount % 3 == 0:
-        ans[0] += int(amount/3)
-        return sweet_box(amount-3 * int(amount / 5))
+        ans[0] += 1
+        return sweet_box(amount-3)
     elif amount > 5:
         ans[1] += 1
         return sweet_box(amount-5)
@@ -22,8 +23,7 @@ def sweet_box(amount):
         ans[0] += 1
         return sweet_box(amount-3)
 
-if N % 5 > 3:
+if sweet_box(N) == -1:
     print(-1)
 else:
-    sweet_box(N)
     print(sum(ans))
