@@ -1,1 +1,4 @@
-        fibo_dict[num] = [0, 0 ]
+
+# print(len(see_listen))    
+# for person in see_listen:
+#     print(person)

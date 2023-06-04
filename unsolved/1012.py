@@ -1,31 +1,35 @@
 import sys
+from collections import deque
 
 T = int(sys.stdin.readline())
 
-def dfs(graph, cur_x, cur_y, M, N):
-    if -1 < cur_y < M and -1 < cur_x < N and graph[cur_x][cur_y]:
-        graph[cur_x][cur_y] = 0
-        dfs(graph, cur_x-1, cur_y, M, N)
-        dfs(graph, cur_x+1, cur_y, M, N)
-        dfs(graph, cur_x, cur_y-1, M, N)
-        dfs(graph, cur_x, cur_y+1, M, N)
-        return True
-    else:
-        return False
-    
+delta = [(-1, 0), (0, -1), (1, 0), (0, 1)]
 
-for i in range(T):
-    ans = 0
-    N, M, K = map(int, sys.stdin.readline().split())
-    graph = [[0] * M for _ in range(N)]
+for _ in range(T):
+    M, N, K = map(int, sys.stdin.readline().split())
+    graph = [[0] * M for _ in range(N)] 
     
-    for j in range(K):
+    for _ in range(K):
         x, y = map(int, sys.stdin.readline().split())
-        graph[x][y] = 1
-        
-    for a in range(N):
-        for b in range(M):
-            if graph[a][b] == 1:
-                dfs(graph, a, b, M, N)
+        graph[y][x] = 1
+    
+    queue = deque()
+    ans = 0
+    for i in range(N):
+        for j in range(M):
+            if graph[i][j] == 1:
+                queue.append((i, j))
                 ans += 1
+
+                while queue:
+                    cur_y, cur_x = queue.popleft()
+                    graph[cur_y][cur_x] = -1
+                    for k in range(4):
+                        dy = cur_y + delta[k][0]
+                        dx = cur_x + delta[k][1]
+                        if 0 <= dy < N and 0 <= dx < M:
+                            if graph[dy][dx] == 1:
+                                graph[dy][dx] = -1
+                                queue.append((dy, dx))
+                
     print(ans)
