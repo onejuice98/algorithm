@@ -9,8 +9,8 @@ for _ in range(M):
     a, b = map(int, sys.stdin.readline().split())
     graph[a][b] = graph[b][a] = 1
 
-dfs_visited = [0] * (N+1)
-""" dfs """
+_visited = [0] * (N+1)
+"""  """
 def dfs(root):
     dfs_visited[root] = 1
     print(root, end = " ")
